@@ -54,7 +54,6 @@ group :development, :test do
   gem 'rspec-rails', '>= 3.0.0'
   gem 'cucumber-rails', '1.2.1', require: false
   gem 'database_cleaner', '0.7.0'
-  gem 'rails_12factor'
 end
 
 group :development do
@@ -76,4 +75,5 @@ end
 
 group :production do
   gem 'pg', '>= 0.12.2'
+  gem 'rails_12factor'
 end
