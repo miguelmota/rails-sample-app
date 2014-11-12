@@ -12,6 +12,7 @@
 class User < ActiveRecord::Base
 
   has_secure_password
+  has_many :microposts, dependent: :destroy # destroy is user destroyed
 
   before_save { |user| user.email = email.downcase }
   # before_save { self.email.downcase } # shorthand

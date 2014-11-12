@@ -28,6 +28,7 @@ describe User, :type => :model do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token)}
   it { should respond_to(:authenticate)}
+  it { should respond_to(:microposts)}
   it { should respond_to(:admin) }
 
   it { should be_valid }
@@ -138,4 +139,28 @@ describe User, :type => :model do
   end
 
   #pending "add some examples to (or delete) #{__FILE__}"
+
+  describe "micropost associations" do
+    before {@user.save}
+    # let bang - not invoked when defined, but rather before each. forcefully evaluated
+    let!(:older_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago)
+    end
+
+    let!(:newer_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
+    end
+
+    it "should have the right microposts in the right order" do
+      @user.microposts.should == [newer_micropost, older_micropost]
+    end
+
+    it "should destroy associated microposts" do
+      microposts = @user.microposts
+      @user.destroy
+      microposts.each do |micropost|
+        Micropost.find_by_id(micropost.id).should be_nil
+      end
+    end
+  end
 end
