@@ -22,4 +22,4 @@ rails s
 
 # License
 
-MIT.
+MIT
